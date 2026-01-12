@@ -27,6 +27,9 @@ logger.setLevel(logging.ERROR)
 
 tracemalloc.start()
 
+# --- CONFIGURATION ---
+PAY_BOT_USERNAME = "PremiumPayBot"  # <--- CHANGE THIS to your Pay Bot Username (No @)
+# ---------------------
 
 TIMEZONE = "Asia/Kolkata"
 BUTTON = {}
@@ -190,7 +193,7 @@ async def next_page(bot, query):
         btn.insert(0,
                    [
                        InlineKeyboardButton(
-                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                        InlineKeyboardButton(
                            "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
 
@@ -211,7 +214,7 @@ async def next_page(bot, query):
                    )
         btn.insert(0, [
             InlineKeyboardButton(
-                "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
             InlineKeyboardButton("Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
         ])
     if ULTRA_FAST_MODE:
@@ -470,7 +473,7 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
         btn.insert(0,
                    [
                        InlineKeyboardButton(
-                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                        InlineKeyboardButton(
                            "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
                    ])
@@ -489,7 +492,7 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
         btn.insert(0,
                    [
                        InlineKeyboardButton(
-                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                        InlineKeyboardButton(
                            "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
 
@@ -629,7 +632,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         btn.insert(0,
                    [
                        InlineKeyboardButton(
-                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                        InlineKeyboardButton(
                            "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
                    ]
@@ -648,7 +651,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         btn.insert(0,
                    [
                        InlineKeyboardButton(
-                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                           "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                        InlineKeyboardButton(
                            "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
                    ])
@@ -784,7 +787,7 @@ async def filter_seasons_cb_handler(client: Client, query: CallbackQuery):
         0,
         [
             InlineKeyboardButton(
-                "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
             InlineKeyboardButton("Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}"),
         ],
     )
@@ -1433,12 +1436,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data == "prestream":
         await query.answer(text=script.PRE_STREAM_ALERT, show_alert=True)
+        # Redirect Logic for Prestream
+        redirect_url = f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"
         dreamcinezone = await client.send_photo(
             chat_id=query.message.chat.id,
             photo="https://i.ibb.co/whf8xF7j/photo-2025-07-26-10-42-46-7531339305176793100.jpg",
             caption=script.PRE_STREAM,
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🚀 Buy Premium 🚀", callback_data="premium_info")]
+                [InlineKeyboardButton("🚀 Buy Premium (Go to Pay Bot) 🚀", url=redirect_url)]
             ])
         )
         await asyncio.sleep(DELETE_TIME)
@@ -1538,40 +1543,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             parse_mode=enums.ParseMode.HTML
         )
 
-    elif query.data == "give_trial":
-        try:
-            user_id = query.from_user.id
-            has_free_trial = await db.check_trial_status(user_id)
-            if has_free_trial:
-                await query.answer(
-                    "🚸 ʏᴏᴜ'ᴠᴇ ᴀʟʀᴇᴀᴅʏ ᴄʟᴀɪᴍᴇᴅ ʏᴏᴜʀ ꜰʀᴇᴇ ᴛʀɪᴀʟ ᴏɴᴄᴇ !\n\n📌 ᴄʜᴇᴄᴋᴏᴜᴛ ᴏᴜʀ ᴘʟᴀɴꜱ ʙʏ : /plan",
-                    show_alert=True
-                )
-                return
-            else:
-                await db.give_free_trial(user_id)
-                await query.answer("✅ Trial activated!", show_alert=True)
-
-                msg = await client.send_photo(
-                    chat_id=query.message.chat.id,
-                    photo="https://i.ibb.co/0jC8MSDZ/photo-2025-07-26-10-42-36-7531339283701956616.jpg",
-                    caption=(
-                        "<b>🥳 ᴄᴏɴɢʀᴀᴛᴜʟᴀᴛɪᴏɴꜱ\n\n"
-                        "🎉 ʏᴏᴜ ᴄᴀɴ ᴜsᴇ ꜰʀᴇᴇ ᴛʀᴀɪʟ ꜰᴏʀ <u>5 ᴍɪɴᴜᴛᴇs</u> ꜰʀᴏᴍ ɴᴏᴡ !\n\n"
-                        "ɴᴇᴇᴅ ᴘʀᴇᴍɪᴜᴍ 👉🏻 /plan</b>"
-                    ),
-                    parse_mode=enums.ParseMode.HTML,
-                    reply_markup=InlineKeyboardMarkup([[
-                        InlineKeyboardButton("🚀 Buy Premium 🚀", callback_data="premium_info")
-                    ]])
-                )
-                await asyncio.sleep(DELETE_TIME)
-                return await msg.delete()
-        except Exception as e:
-            logging.exception("Error in give_trial callback")
-
-
-
     elif query.data == "source":
         buttons = [[
             InlineKeyboardButton('ᴅʀᴇᴀᴍxʙᴏᴛᴢ 📜', url='https://github.com/DreamXBotz/Auto_Filter_Bot.git'),
@@ -1597,15 +1568,24 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML
             )
+    
+    # -------------------------------------------------------------------------------------
+    # REDIRECT LOGIC START (Gatekeeper Mode)
+    # Replaces: premium_info, buy_info, upi_info, star_info, give_trial
+    # -------------------------------------------------------------------------------------
 
     elif query.data == "premium_info":
+        user_id = query.from_user.id
+        redirect_url = f"https://t.me/{PAY_BOT_USERNAME}?start={user_id}"
+
         try:
+            # Note: "Buy Premium" aur "Free Trial" ab seedha Pay Bot par bhejenge
             btn = [[
-                InlineKeyboardButton('• ʙᴜʏ ᴘʀᴇᴍɪᴜᴍ •', callback_data='buy_info'),
+                InlineKeyboardButton('💎 ʙᴜʏ ᴘʀᴇᴍɪᴜᴍ (Go to PayBot)', url=redirect_url),
+            ],[
+                InlineKeyboardButton('⚡ ᴄʟᴀɪᴍ ꜰʀᴇᴇ ᴛʀɪᴀʟ (Go to PayBot)', url=redirect_url),
             ],[
                 InlineKeyboardButton('• ʀᴇꜰᴇʀ ꜰʀɪᴇɴᴅꜱ', callback_data='reffff'),
-                InlineKeyboardButton('ꜰʀᴇᴇ ᴛʀɪᴀʟ •', callback_data='give_trial')
-            ],[
                 InlineKeyboardButton('⇋ ʙᴀᴄᴋ ᴛᴏ ʜᴏᴍᴇ ⇋', callback_data='start')
             ]]
             reply_markup = InlineKeyboardMarkup(btn)
@@ -1618,60 +1598,32 @@ async def cb_handler(client: Client, query: CallbackQuery):
         except Exception as e:
             logging.exception("Exception in 'premium_info' callback")
 
+    elif query.data in ["buy_info", "upi_info", "star_info", "give_trial"]:
+        # Agar purane buttons ya logic se koi user yahan aata hai, 
+        # toh usse wapas Pay Bot par redirect karo.
+        user_id = query.from_user.id
+        redirect_url = f"https://t.me/{PAY_BOT_USERNAME}?start={user_id}"
+        
+        await query.answer("⚠️ Redirecting to Payment Bot...", show_alert=False)
+        
+        btn = [[
+            InlineKeyboardButton('🚀 Go to Payment Bot', url=redirect_url)
+        ],[
+            InlineKeyboardButton('⇋ Back', callback_data='premium_info')
+        ]]
+        
+        await query.message.edit_caption(
+            caption="<b>💳 Payment & Trials are moved to our Cashier Bot.\n\nPlease click below to Proceed:</b>",
+            reply_markup=InlineKeyboardMarkup(btn)
+        )
+        
+    elif query.data.startswith("buy_"):
+        # Catch any stray 'buy_X' calls (Telegram Stars)
+        await query.answer("⚠️ Payments are handled by @PremiumPayBot", show_alert=True)
 
-    elif query.data == "buy_info":
-        try:
-            btn = [[
-                InlineKeyboardButton('ꜱᴛᴀʀ', callback_data='star_info'),
-                InlineKeyboardButton('ᴜᴘɪ', callback_data='upi_info')
-            ],[
-                InlineKeyboardButton('⇋ ʙᴀᴄᴋ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ ⇋', callback_data='premium_info')
-            ]]
-            reply_markup = InlineKeyboardMarkup(btn)
-            await client.edit_message_media(
-                chat_id=query.message.chat.id,
-                message_id=query.message.id,
-                media=InputMediaPhoto(media=SUBSCRIPTION, caption=script.PREMIUM_TEXT, parse_mode=enums.ParseMode.HTML),
-                reply_markup=reply_markup
-            )
-        except Exception as e:
-            logging.exception("Exception in 'buy_info' callback")
-
-    elif query.data == "upi_info":
-        try:
-            btn = [[
-                InlineKeyboardButton('• ꜱᴇɴᴅ  ᴘᴀʏᴍᴇɴᴛ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ •', url=OWNER_LNK),
-            ],[
-                InlineKeyboardButton('⇋ ʙᴀᴄᴋ ⇋', callback_data='buy_info')
-            ]]
-            reply_markup = InlineKeyboardMarkup(btn)
-            await client.edit_message_media(
-                chat_id=query.message.chat.id,
-                message_id=query.message.id,
-                media=InputMediaPhoto(media=SUBSCRIPTION, caption=script.PREMIUM_UPI_TEXT.format(OWNER_UPI_ID), parse_mode=enums.ParseMode.HTML),
-                reply_markup=reply_markup
-            )
-        except Exception as e:
-            logging.exception("Exception in 'upi_info' callback")
-
-    elif query.data == "star_info":
-        try:
-            btn = [
-                InlineKeyboardButton(f"{stars}⭐", callback_data=f"buy_{stars}")
-                for stars, days in STAR_PREMIUM_PLANS.items()
-            ]
-            buttons = [btn[i:i + 2] for i in range(0, len(btn), 2)]
-            buttons.append([InlineKeyboardButton("⋞ ʙᴀᴄᴋ", callback_data="buy_info")])
-            reply_markup = InlineKeyboardMarkup(buttons)
-            await client.edit_message_media(
-                chat_id=query.message.chat.id,
-                message_id=query.message.id,
-                media=InputMediaPhoto(media=SUBSCRIPTION, caption=script.PREMIUM_STAR_TEXT, parse_mode=enums.ParseMode.HTML),
-                reply_markup=reply_markup
-            )
-        except Exception as e:
-            logging.exception("Exception in 'star' callback")
-
+    # -------------------------------------------------------------------------------------
+    # REDIRECT LOGIC END
+    # -------------------------------------------------------------------------------------
 
     elif query.data.startswith("grp_pm"):
         _, grp_id = query.data.split("#")
@@ -1852,7 +1804,7 @@ async def auto_filter(client, msg, spoll=False):
             btn.insert(0,
                        [
                            InlineKeyboardButton(
-                               "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                               "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                            InlineKeyboardButton(
                                "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
 
@@ -1872,7 +1824,7 @@ async def auto_filter(client, msg, spoll=False):
             btn.insert(0,
                        [
                            InlineKeyboardButton(
-                               "ʀᴇᴍᴏᴠᴇ ᴀᴅs", url=f"https://t.me/{temp.U_NAME}?start=premium"),
+                               "ʀᴇᴍᴏᴠᴇ ᴀᴅs (Pay Bot)", url=f"https://t.me/{PAY_BOT_USERNAME}?start=premium_redirect"),
                            InlineKeyboardButton(
                                "Sᴇɴᴅ Aʟʟ", callback_data=f"sendfiles#{key}")
                        ])
@@ -2092,4 +2044,3 @@ async def advantage_spell_chok(client, message):
         await message.delete()
     except:
         pass
-    
