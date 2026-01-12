@@ -59,18 +59,13 @@ auth_req_channels = environ.get("AUTH_REQ_CHANNELS", "-100")# requst to join Cha
 auth_channels     = environ.get("AUTH_CHANNELS", "-100")# Channels for force sub (make sure bot is admin)
 
 # ============================
-# Payment Configuration
+# Payment Redirect Configuration (NEW)
 # ============================
-QR_CODE = environ.get('QR_CODE', 'https://graph.org/file/e419f801841c2ee3db0fc.jpg')    # QR code image for payments
-OWNER_UPI_ID = environ.get('OWNER_UPI_ID', 'ɴᴏ ᴀᴠᴀɪʟᴀʙʟᴇ ʀɪɢʜᴛ ɴᴏᴡ')    # Owner UPI ID for payments
+# IMPORTANT: Yahan apne Payment Bot ka username dalein (Bina @ ke)
+PAY_BOT_USERNAME = environ.get('PAY_BOT_USERNAME', 'PremiumPayBot') 
 
-STAR_PREMIUM_PLANS = {
-    10: "7day",
-    20: "15day",    
-    40: "1month", 
-    55: "45day",
-    75: "60day",
-}  # Premium plans with their respective durations in days
+# Note: QR_CODE, UPI_ID, aur STAR_PLANS yahan se remove kar diye gaye hain.
+# Wo sab ab "Premium Bot" (paybot.py) me rahenge.
 
 # ============================
 # MongoDB Configuration
@@ -82,6 +77,7 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'dreamcinezone_files') # Collec
 # If MULTIPLE_DB Is True Then Fill DATABASE_URI2 Value Else You Will Get Error.
 MULTIPLE_DB = is_enabled(os.environ.get('MULTIPLE_DB', "False"), False) # Type True For Turn On MULTIPLE DB FUNTION 
 DATABASE_URI2 = environ.get('DATABASE_URI2', "")  # MongoDB URI for the second database (if MULTIPLE_DB is True)
+
 # ============================
 # Movie Notification & Update Settings
 # ============================
@@ -199,7 +195,7 @@ BAD_WORDS = {
     "tg",
     "original"
 } # Set of bad words to filter out
-   
+    
 
 # ============================
 # Server & Web Configuration
