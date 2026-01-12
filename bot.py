@@ -23,6 +23,15 @@ Image.MAX_IMAGE_PIXELS = 500_000_000
 
 import logging
 import logging.config
+import importlib
+from pathlib import Path
+from pyrogram import Client, __version__
+
+# Logger setup karein taaki "LOGGER not defined" error hat jaye
+logging.basicConfig(level=logging.INFO)
+LOGGER = logging.getLogger(__name__)
+
+# ... baaki code ...
 
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
