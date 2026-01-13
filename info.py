@@ -62,7 +62,7 @@ auth_channels     = environ.get("AUTH_CHANNELS", "-100")# Channels for force sub
 # Payment Redirect Configuration (NEW)
 # ============================
 # IMPORTANT: Yahan apne Payment Bot ka username dalein (Bina @ ke)
-PAY_BOT_USERNAME = environ.get('PAY_BOT_USERNAME', 'PremiumPayBot') 
+PAY_BOT_USERNAME = environ.get('PAY_BOT_USERNAME', 'PaymentGuardianBot') 
 
 # Note: QR_CODE, UPI_ID, aur STAR_PLANS yahan se remove kar diye gaye hain.
 # Wo sab ab "Premium Bot" (paybot.py) me rahenge.
