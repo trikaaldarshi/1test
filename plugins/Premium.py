@@ -10,7 +10,7 @@ from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # --- CONFIGURATION ---
-PREMIUM_BOT_USERNAME = "PremiumPayBot" # Yahan apne Pay Bot ka username lagayein (bina @ ke)
+PREMIUM_BOT_USERNAME = "PaymentGuardianBot" # Yahan apne Pay Bot ka username lagayein (bina @ ke)
 # ---------------------
 
 # ---------------------------------------------------------------
